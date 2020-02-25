@@ -244,7 +244,11 @@ objects:
               - /opt/eap/bin/readinessProbe.sh
           resources:
             limits:
-              memory: ${MEMORY_LIMIT}
+              cpu: '${CPU_LIMIT}'
+              memory: '${MEMORY_LIMIT}'
+            requests:
+              cpu: '${CPU_REQUEST}'
+              memory: '${MEMORY_REQUEST}'
           volumeMounts:
           - mountPath: /etc/eap-secret-volume
             name: eap-keystore-volume
@@ -321,6 +325,13 @@ objects:
           ports:
           - containerPort: 5432
             protocol: TCP
+          resources:
+            limits:
+              cpu: '${PG_CPU_LIMIT}'
+              memory: '${PG_MEMORY_LIMIT}'
+            requests:
+              cpu: '${PG_CPU_REQUEST}'
+              memory: '${PG_MEMORY_REQUEST}'
           readinessProbe:
             exec:
               command:
@@ -510,3 +521,31 @@ parameters:
   displayName: Container Memory Limit
   name: MEMORY_LIMIT
   value: 1Gi
+- description: Container cpu limit.
+  displayName: Container CPU Limit
+  name: CPU_LIMIT
+  value: "1"
+- description: Container memory request.
+  displayName: Container Memory Request
+  name: MEMORY_REQUEST
+  value: 500Mi
+- description: Container cpu request.
+  displayName: Container CPU Request
+  name: CPU_REQUEST
+  value: 200m
+- description: Postgres container memory limit.
+  displayName: Postgres Container Memory Limit
+  name: PG_MEMORY_LIMIT
+  value: 500Mi
+- description: Postgres container cpu limit.
+  displayName: Postgres Container CPU Limit
+  name: PG_CPU_LIMIT
+  value: 500m
+- description: Postgres container memory request.
+  displayName: Postgres Container Memory Request
+  name: PG_MEMORY_REQUEST
+  value: 256Mi
+- description: Postgres container cpu request.
+  displayName: Postgres Container CPU Request
+  name: PG_CPU_REQUEST
+  value: 100m
